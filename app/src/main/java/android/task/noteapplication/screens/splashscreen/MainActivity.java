@@ -1,6 +1,10 @@
 package android.task.noteapplication.screens.splashscreen;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,29 +34,14 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                UserSharedPerferences sharedPref;
-                sharedPref = UserSharedPerferences.getInstance();
-
-                if (sharedPref.getISLogged_IN(MainActivity.this)) {
-
-                    Log.w(TAG, "Logged In Normal");
-                    LoginActivity loginActivity= new LoginActivity();
-                    loginActivity.checkLoginStatus();
-                    //startActivity(new Intent(getApplicationContext(), HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                    finish();
-                }
-                else{
-
                     Log.w(TAG, "Not Logged In");
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
-
-                }
             }
         },3800);
     }
     private void initComponents(){
         splashImageView = findViewById(R.id.splashImageView);
     }
+
 }

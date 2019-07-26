@@ -40,14 +40,11 @@ public class HomeActivity extends AppCompatActivity {
     public static final int EDIT_NOTE_REQUEST = 2;
 
     private NoteViewModel noteViewModel;
-    private UserSharedPerferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        sharedPref = UserSharedPerferences.getInstance();
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_note);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -155,7 +152,6 @@ public class HomeActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
            // FirebaseAuth.getInstance().signOut();
-            sharedPref.saveISLogged_IN(HomeActivity.this, false);
             LoginManager.getInstance().logOut();
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             startActivity(intent);

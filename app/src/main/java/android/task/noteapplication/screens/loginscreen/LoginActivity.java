@@ -1,9 +1,14 @@
 package android.task.noteapplication.screens.loginscreen;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.task.noteapplication.R;
+import android.task.noteapplication.model.services.UserSharedPerferences;
 import android.task.noteapplication.screens.homescreen.HomeActivity;
 import android.util.Log;
 import android.view.View;
@@ -29,7 +34,6 @@ public class LoginActivity extends AppCompatActivity {
     public static final String EXTRA_ID = "android.task.noteapplication.screens.loginscreen.EXTRA_ID";
     public static final String EXTRA_NAME = "android.task.noteapplication.screens.loginscreen.EXTRA_NAME";
     public static final String EXTRA_IMG = "android.task.noteapplication.screens.loginscreen.EXTRA_IMG";
-
     public static final int LOGIN_REQUEST = 3;
 
     private static final String TAG = "";
@@ -62,7 +66,17 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                loginFB.performClick();
+               // loginFB.performClick();
+                if(checkNetworkConnectionStatuse()){
+                    loginFB.performClick();
+                }else{
+                    AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
+                    alert.setTitle("No Internet Connection");
+                    alert.setMessage("Make sure that Wi-Fi or mobile data turned on, then try again.");
+                    alert.setPositiveButton("OK",null);
+                    alert.show();
+                }
+
 
             }
         });
@@ -95,6 +109,32 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private boolean checkNetworkConnectionStatuse(){
+        boolean internetConnected;
+        //boolean wifiConnected;
+        //boolean mobileConnected;
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeInfo = connectivityManager.getActiveNetworkInfo();
+        if(activeInfo != null && activeInfo.isConnected()){//connected with either mobile or wifi
+          /*  wifiConnected = activeInfo.getType() == ConnectivityManager.TYPE_WIFI;
+            mobileConnected = activeInfo.getType() == ConnectivityManager.TYPE_MOBILE;
+
+            if(wifiConnected){//wifi connected
+
+            }else if(mobileConnected){//mobile connected
+
+            }*/
+            return true;
+
+        }else{// no internet connection
+            /*AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
+            alert.setTitle("No Internet Connection");
+            alert.setMessage("Make sure that Wi-Fi or mobile data turned on, then try again.");
+            alert.setPositiveButton("OK",null);
+            alert.show();*/
+            return false;
+        }
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Pass the activity result back to the Facebook SDK
@@ -143,7 +183,14 @@ public class LoginActivity extends AppCompatActivity {
     public void checkLoginStatus(){
         if(AccessToken.getCurrentAccessToken() != null)
         {
-            loadUserProfile(AccessToken.getCurrentAccessToken());
+            if(checkNetworkConnectionStatuse()){//true
+                loadUserProfile(AccessToken.getCurrentAccessToken());
+            }else{
+                Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(LoginActivity.this , HomeActivity.class);
+                LoginActivity.this.startActivityForResult(intent,LOGIN_REQUEST);
+            }
+
         }
     }
     public void updateUI(String first_name,String last_name,String img_url, String id) {
