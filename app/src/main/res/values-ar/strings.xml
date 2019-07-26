@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ملاحظات</string>
+    <string name="facebook_app_id">375013656490953</string>
+    <string name="fb_login_protocol_scheme">fb375013656490953</string>
+    <string name="facebook">فيس بوك</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="action_logout">تسجيل الخروج</string>
+    <string name="notes">ملاحظات</string>
+    <string name="title">العنوان</string>
+    <string name="content">المحتوى</string>
+    <string name="add">اضافة</string>
+    <string name="addNewNote">اضافة ملاحظة جديدة</string>
+    <string name="editNote">تعديل الملاحظة</string>
+    <string name="action_save">حفظ</string>
+    <string name="action_deleteAllNotes">مسح جميع الملاحظات</string>
+    <string name="note">ملاحظة</string>
+    <string name="no_internet_title">لا يوجد اتصال بالانترنت</string>
+    <string name="no_internet_msg">تأكد من تشغيل Wi-Fi أو بيانات الجوال , ثم أعد المحاولة.</string>
+    <string name="ok">حسنا</string>
+    <string name="note_deleted">تم مسح الملاحظة</string>
+    <string name="all_notes_deleted">تم مسح جميع الملاحظات</string>
+    <string name="note_saved">تم حفظ الملاحظة</string>
+    <string name="note_updated">تم تعديل الملاحظة</string>
+    <string name="note_not_saved">لم يتم حفظ الملاحظة</string>
+    <string name="note_can_not_be_updated">لا يمكن تعديل الملاحظة</string>
+    <string name="user_logged_out">قام المستخدم بتسجيل الخروج</string>
+</resources>

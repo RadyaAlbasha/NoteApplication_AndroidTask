@@ -71,9 +71,9 @@ public class LoginActivity extends AppCompatActivity {
                     loginFB.performClick();
                 }else{
                     AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
-                    alert.setTitle("No Internet Connection");
-                    alert.setMessage("Make sure that Wi-Fi or mobile data turned on, then try again.");
-                    alert.setPositiveButton("OK",null);
+                    alert.setTitle(R.string.no_internet_title);
+                    alert.setMessage(R.string.no_internet_msg);
+                    alert.setPositiveButton(R.string.ok,null);
                     alert.show();
                 }
 
@@ -147,7 +147,7 @@ public class LoginActivity extends AppCompatActivity {
         protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
 
             if(currentAccessToken == null){
-                Toast.makeText(LoginActivity.this, "User Logged out", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, R.string.user_logged_out, Toast.LENGTH_SHORT).show();
             }else {
                 loadUserProfile(currentAccessToken);
             }
@@ -186,7 +186,7 @@ public class LoginActivity extends AppCompatActivity {
             if(checkNetworkConnectionStatuse()){//true
                 loadUserProfile(AccessToken.getCurrentAccessToken());
             }else{
-                Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.no_internet_title, Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(LoginActivity.this , HomeActivity.class);
                 LoginActivity.this.startActivityForResult(intent,LOGIN_REQUEST);
             }

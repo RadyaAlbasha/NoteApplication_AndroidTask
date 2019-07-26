@@ -80,7 +80,7 @@ public class HomeActivity extends AppCompatActivity {
                 }*/
 
                 noteViewModel.delete(noteAdapter.getNoteAt(viewHolder.getAdapterPosition()));
-                Toast.makeText(HomeActivity.this, "Note deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeActivity.this, R.string.note_deleted, Toast.LENGTH_SHORT).show();
 
             }
         }).attachToRecyclerView(recyclerView);
@@ -114,8 +114,8 @@ public class HomeActivity extends AppCompatActivity {
         if (intent.hasExtra(LoginActivity.EXTRA_ID)) {
             Glide.with(HomeActivity.this)
                     .load(intent.getStringExtra(LoginActivity.EXTRA_IMG))
-                    .placeholder(R.drawable.ic_person)//this would be your default image (like default profile or logo etc). it would be loaded at initial time and it will replace with your loaded image once glide successfully load image using url.
-                    .error(R.drawable.ic_person)//in case of any glide exception or not able to download then this image will be appear . if you won't mention this error() then nothing to worry placeHolder image would be remain as it is.
+                    .placeholder(R.drawable.ic_book)//this would be your default image (like default profile or logo etc). it would be loaded at initial time and it will replace with your loaded image once glide successfully load image using url.
+                    .error(R.drawable.ic_book)//in case of any glide exception or not able to download then this image will be appear . if you won't mention this error() then nothing to worry placeHolder image would be remain as it is.
                     .diskCacheStrategy(DiskCacheStrategy.ALL) //using to load into cache then second time it will load fast.
                     .into(userPic);
             userNameTV.setText(intent.getStringExtra(LoginActivity.EXTRA_NAME));
@@ -156,13 +156,13 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             startActivity(intent);
             HomeActivity.this.finish();
-            Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,  R.string.user_logged_out, Toast.LENGTH_SHORT).show();
             return true;
         }
         else if(id == R.id.action_deleteAllNotes)
         {
             noteViewModel.deleteAllNotes();
-            Toast.makeText(this, "All notes deleted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.all_notes_deleted, Toast.LENGTH_SHORT).show();
             return true;
         }
 
@@ -179,11 +179,11 @@ public class HomeActivity extends AppCompatActivity {
             Note note = new Note(title,content);
             noteViewModel.insert(note);
 
-            Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.note_saved, Toast.LENGTH_SHORT).show();
         }else  if(requestCode == EDIT_NOTE_REQUEST && resultCode == RESULT_OK){
             int id = data.getIntExtra(AddEditNoteActivity.EXTRA_ID,-1);
             if(id == -1){
-                Toast.makeText(this, "Note can't be Updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.note_can_not_be_updated, Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -194,9 +194,9 @@ public class HomeActivity extends AppCompatActivity {
             note.setId(id);
             noteViewModel.update(note);
 
-            Toast.makeText(this, "Note Updated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.note_updated, Toast.LENGTH_SHORT).show();
         }else {
-            Toast.makeText(this, "Note not saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.note_not_saved, Toast.LENGTH_SHORT).show();
         }
     }
 }

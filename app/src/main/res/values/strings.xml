@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NoteApplication</string>
+    <string name="app_name">Notes</string>
     <string name="facebook_app_id">375013656490953</string>
     <string name="fb_login_protocol_scheme">fb375013656490953</string>
     <string name="facebook">Facebook</string>
@@ -15,4 +15,17 @@
     <string name="action_save">Save</string>
     <string name="action_deleteAllNotes">Delete all notes</string>
     <string name="note">Note</string>
+    <string name="no_internet_title">No Internet Connection</string>
+    <string name="no_internet_msg">Make sure that Wi-Fi or mobile data turned on, then try again.</string>
+    <string name="ok">OK</string>
+    <string name="note_deleted">Note deleted</string>
+    <string name="all_notes_deleted">All notes deleted</string>
+    <string name="note_saved">Note saved</string>
+    <string name="note_updated">Note updated</string>
+    <string name="note_not_saved">Note not saved</string>
+    <string name="note_can_not_be_updated">Note can\'t be updated</string>
+    <string name="user_logged_out">User logged out</string>
+
+
+
 </resources>
