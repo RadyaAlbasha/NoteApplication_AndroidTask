@@ -24,6 +24,6 @@ public interface NoteDao {
     @Query("DELETE FROM note_table")
     void deleteAllNotes();
 
-    @Query("SELECT * FROM note_table")
-    LiveData<List<Note>> getAllNotes();
+    @Query("SELECT * FROM note_table WHERE user_id LIKE :uid")
+    LiveData<List<Note>> getAllNotes(String uid);
 }

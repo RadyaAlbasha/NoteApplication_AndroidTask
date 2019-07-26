@@ -2,6 +2,7 @@ package android.task.noteapplication.screens.homescreen;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,6 +31,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.login.LoginManager;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -40,11 +48,29 @@ public class HomeActivity extends AppCompatActivity {
     public static final int EDIT_NOTE_REQUEST = 2;
 
     private NoteViewModel noteViewModel;
-
+    private String uid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        Toolbar toolbar = findViewById(R.id.toolbarID);
+        CircleImageView userPic = findViewById(R.id.toolbarPic);
+        TextView userNameTV = findViewById(R.id.toolbarName);
+        Intent intent = getIntent();
+        if (intent.hasExtra(LoginActivity.EXTRA_ID)) {
+            Glide.with(HomeActivity.this)
+                    .load(intent.getStringExtra(LoginActivity.EXTRA_IMG))
+                    .placeholder(R.drawable.ic_book)//this would be your default image (like default profile or logo etc). it would be loaded at initial time and it will replace with your loaded image once glide successfully load image using url.
+                    .error(R.drawable.ic_book)//in case of any glide exception or not able to download then this image will be appear . if you won't mention this error() then nothing to worry placeHolder image would be remain as it is.
+                    .diskCacheStrategy(DiskCacheStrategy.ALL) //using to load into cache then second time it will load fast.
+                    .into(userPic);
+            userNameTV.setText(intent.getStringExtra(LoginActivity.EXTRA_NAME));
+            uid = intent.getStringExtra(LoginActivity.EXTRA_ID);
+        } else{
+            uid = readUid();
+        }
+        setSupportActionBar(toolbar);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_note);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -54,7 +80,7 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView .setAdapter(noteAdapter);
 
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
-        noteViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
+        noteViewModel.getAllNotes(uid).observe(this, new Observer<List<Note>>() {
             @Override
             public void onChanged(@Nullable List<Note> notes) {
                 //update RecyclerView
@@ -106,21 +132,6 @@ public class HomeActivity extends AppCompatActivity {
                 startActivityForResult(intent,EDIT_NOTE_REQUEST);
             }
         });
-
-        Toolbar toolbar = findViewById(R.id.toolbarID);
-        CircleImageView userPic = findViewById(R.id.toolbarPic);
-        TextView userNameTV = findViewById(R.id.toolbarName);
-        Intent intent = getIntent();
-        if (intent.hasExtra(LoginActivity.EXTRA_ID)) {
-            Glide.with(HomeActivity.this)
-                    .load(intent.getStringExtra(LoginActivity.EXTRA_IMG))
-                    .placeholder(R.drawable.ic_book)//this would be your default image (like default profile or logo etc). it would be loaded at initial time and it will replace with your loaded image once glide successfully load image using url.
-                    .error(R.drawable.ic_book)//in case of any glide exception or not able to download then this image will be appear . if you won't mention this error() then nothing to worry placeHolder image would be remain as it is.
-                    .diskCacheStrategy(DiskCacheStrategy.ALL) //using to load into cache then second time it will load fast.
-                    .into(userPic);
-            userNameTV.setText(intent.getStringExtra(LoginActivity.EXTRA_NAME));
-        }
-        setSupportActionBar(toolbar);
 
         FloatingActionButton fab_addNote = findViewById(R.id.fab_add_note);
         fab_addNote.setOnClickListener(new View.OnClickListener() {
@@ -176,7 +187,7 @@ public class HomeActivity extends AppCompatActivity {
             String title = data.getStringExtra(AddEditNoteActivity.EXTRA_TITLE);
             String content = data.getStringExtra(AddEditNoteActivity.EXTRA_Content);
 
-            Note note = new Note(title,content);
+            Note note = new Note(title,content, uid);
             noteViewModel.insert(note);
 
             Toast.makeText(this, R.string.note_saved, Toast.LENGTH_SHORT).show();
@@ -190,7 +201,7 @@ public class HomeActivity extends AppCompatActivity {
             String title = data.getStringExtra(AddEditNoteActivity.EXTRA_TITLE);
             String content = data.getStringExtra(AddEditNoteActivity.EXTRA_Content);
 
-            Note note = new Note(title,content);
+            Note note = new Note(title,content, uid);
             note.setId(id);
             noteViewModel.update(note);
 
@@ -198,5 +209,29 @@ public class HomeActivity extends AppCompatActivity {
         }else {
             Toast.makeText(this, R.string.note_not_saved, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public String readUid(){
+        String FILENAME = "uidfile.txt";
+        try {
+            FileInputStream fileInputStream = openFileInput(FILENAME);
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            StringBuffer stringBuffer = new StringBuffer();
+
+            String line;
+            while ((line = bufferedReader.readLine())!= null){
+                stringBuffer.append(line);
+            }
+
+            return stringBuffer.toString();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

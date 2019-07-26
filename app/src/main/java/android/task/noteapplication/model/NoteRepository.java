@@ -8,12 +8,12 @@ import java.util.List;
 
 public class NoteRepository {
     private NoteDao noteDao;
-    private LiveData<List<Note>> allNotes;
+    //private LiveData<List<Note>> allNotes;
 
     public NoteRepository(Application application){
         NoteDatabase database = NoteDatabase.getInstance(application);
         noteDao = database.noteDao();
-        allNotes = noteDao.getAllNotes();
+        //allNotes = noteDao.getAllNotes();
     }
 
     public void insert(Note note){
@@ -32,8 +32,8 @@ public class NoteRepository {
         new DeleteAllNotesAsyncTask(noteDao).execute();
     }
 
-    public LiveData<List<Note>> getAllNotes(){
-        return allNotes;
+    public LiveData<List<Note>> getAllNotes(String uid){
+        return noteDao.getAllNotes(uid);
     }
 
     private static class InsertNoteAsyncTask extends AsyncTask<Note ,Void ,Void>{

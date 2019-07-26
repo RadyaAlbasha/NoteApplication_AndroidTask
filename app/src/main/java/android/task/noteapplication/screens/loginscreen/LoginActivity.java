@@ -28,6 +28,9 @@ import com.facebook.login.widget.LoginButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
@@ -163,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
                     String last_name = object.getString("last_name");
                     String email = object.getString("email");
                     String id = object.getString("id");
-
+                    saveUid(id);
                     String img_url = "https://graph.facebook.com/"+id+"/picture?type=normal";
 
                     updateUI(first_name,last_name,img_url, id);
@@ -200,5 +203,21 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_IMG,img_url);
         intent.putExtra(EXTRA_ID,id);
         LoginActivity.this.startActivityForResult(intent,LOGIN_REQUEST);
+    }
+
+    public void saveUid(String uid){
+        String FILENAME = "uidfile.txt";
+        FileOutputStream fos = null;
+        try {
+            fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            fos.write(uid.getBytes());
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
