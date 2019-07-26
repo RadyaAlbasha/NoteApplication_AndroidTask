@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">NoteApplication</string>
+    <string name="facebook_app_id">375013656490953</string>
+    <string name="fb_login_protocol_scheme">fb375013656490953</string>
+    <string name="facebook">Facebook</string>
+    <string name="login">Login</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="action_logout">Logout</string>
+    <string name="notes">Notes</string>
+    <string name="title">Title</string>
+    <string name="content">Content</string>
+    <string name="add">Add</string>
+    <string name="addNewNote">Add New Note</string>
+    <string name="editNote">Edit Note</string>
+    <string name="action_save">Save</string>
+    <string name="action_deleteAllNotes">Delete all notes</string>
+    <string name="note">Note</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f2d368</color>
+    <color name="colorPrimaryDark">#F6C10A</color>
+    <color name="colorAccent">#f2d368</color>
+    <color name="colorLiteGold">#F3E5AC</color>
+    <color name="colorLite">#fbf5f1</color>
+    <color name="facebookBtn">#00539c</color>
+    <color name="brown">#41182d</color>
+    <color name="editTextBG">#DADADA</color>
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="textColor">#565454</color>
+    <color name="black">#000</color>
+    <color name="gray">#808080</color>
+</resources>
